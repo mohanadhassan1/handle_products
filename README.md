@@ -38,7 +38,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 
-<!-- Installation -->
+Installations:
 
 npm install @headlessui/react @heroicons/react
 npm install next-themes
+
+npm install react-hook-form
+npm i tailwind-merge
+npm i class-variance-authority
+npm i clsx
+npm i yup

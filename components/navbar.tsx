@@ -1,10 +1,12 @@
 "use client";
 
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useAuth } from "../app/context/AuthContext";
+import Image from "next/image";
+// import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const navigation = [{ name: "SPACEJAT", href: "/", current: true }];
 
@@ -12,10 +14,32 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
 
-  const { isLoggedIn, logout } = useAuth();
-  // const { isLoggedIn, logout } = useAuth() ?? { isLoggedIn: false, logout: () => {} };
+  // const { isLoggedIn, logout } = useAuth();
+
+  const router = useRouter();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  const storageKey = "userData";
+  
+  useEffect(() => {
+    const userDataString = localStorage.getItem(storageKey);
+    const userData = userDataString ? JSON.parse(userDataString) : null;
+
+    setIsLoggedIn(userData !== null);
+    // setIsLoggedIn(userData)
+  }, [])
+
+
+  const onLogout = () => {
+    localStorage.removeItem(storageKey);
+    setIsLoggedIn(false);
+    setTimeout(() => {
+      router.push("/");
+    }, 1500);
+  };
 
 
 
@@ -92,15 +116,22 @@ const Navbar: React.FC = () => {
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
 
-                      {/* {isLoggedIn ? ( */}
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt="Email"
+                      {isLoggedIn ? (
+                        // <img
+                        //   className="h-8 w-8 rounded-full"
+                        //   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        //   alt="Email"
+                        // />
+                        <Image
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt="ُEmail"
+                        className="h-8 w-8 rounded-full"
+                        width={64}
+                        height={64}
                         />
-                        {/* ) : (
+                        ) : (
                          <span className="h-8 w-8 rounded-full bg-green-600"></span>
-                       )}  */}
+                       )} 
                     </Menu.Button>
                   </div>
                   <Transition
@@ -145,7 +176,7 @@ const Navbar: React.FC = () => {
                         {({ active }) => (
                           <Link
                             href="#"
-                            onClick={logout}
+                            onClick={onLogout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700",

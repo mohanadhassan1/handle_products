@@ -1,14 +1,14 @@
-'use client'
+// 'use client'
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
-type AuthContextType = {
-  isLoggedIn: boolean;
-  signup: (formData: FormData) => Promise<void>;
-  login: (formData: FormData) => Promise<void>;
-  logout: () => void;
-};
+// type AuthContextType = {
+//   isLoggedIn: boolean;
+//   signup: (formData: FormData) => Promise<void>;
+//   login: (formData: FormData) => Promise<void>;
+//   logout: () => void;
+// };
 
 // interface AuthContextType {
 //   isLoggedIn: boolean;
@@ -17,18 +17,68 @@ type AuthContextType = {
 //   logout: () => void;
 // }
 
+// const authContextDefaultValues: AuthContextType = {
+
+//   isLoggedIn: false,
+//   signup: async (formData: FormData) => {
+//     // const userData = Object.fromEntries(formData.entries());
+//     // localStorage.setItem("userData", JSON.stringify(userData));
+//     console.log("Default signup function called");
+//   }, 
+//   login: async (formData: FormData) => {
+//     // const email = formData.get("email") as string;
+//     // const password = formData.get("password") as string;
+
+//     // const userDataStr = localStorage.getItem("userData");
+
+//     // if (userDataStr) {
+//     //   const userData = JSON.parse(userDataStr);
+//     //   if (userData.email === email && userData.password === password) {
+//     //     // setIsLoggedIn(true);
+//     //     // router.push("/");
+//     //     // console.log("s7 u r right");
+        
+//     //   } else {
+//     //     alert("Invalid email or password");
+//     //   }
+//     // } else {
+//     //   alert("User not found"); 
+//     // }
+//     console.log("Default login function called");
+
+//   }, 
+
+//   logout: () => {},
+// };
+
+type AuthContextType = {
+  isLoggedIn: boolean;
+  signup: (formData: FormData) => Promise<void>;
+  login: (formData: FormData) => Promise<void>;
+  logout: () => void;
+};
+
 const authContextDefaultValues: AuthContextType = {
   isLoggedIn: false,
-  signup: async (formData: FormData) => {}, 
+  signup: async (formData: FormData) => {
+    // const userData = Object.fromEntries(formData.entries());
+    // localStorage.setItem("userData", JSON.stringify(userData));
+  }, 
   login: async (formData: FormData) => {}, 
   logout: () => {},
 };
 
+// const authContextDefaultValues: AuthContextType = {
+
+//   isLoggedIn: false,
+//   signup: () => {},
+//   login:() => {},
+//   logout: () => {},
+// };
+
 
 const AuthContext = createContext<AuthContextType>(authContextDefaultValues);
-
 // const AuthContext = createContext<AuthContextType | undefined>(undefined);
-// const AuthContext = createContext<authContextType>(authContextDefaultValues);
 
 type Props = {
     children: ReactNode;
@@ -47,11 +97,12 @@ export function AuthProvider({ children }: Props) {
     setIsLoggedIn(loggedIn);
   }, []);
 
+
   const signup = async (formData: FormData) => {
-    const userData = Object.fromEntries(formData.entries());
-    localStorage.setItem("userData", JSON.stringify(userData));
+    // const userData = Object.fromEntries(formData.entries());
+    // localStorage.setItem("userData", JSON.stringify(userData));
     setIsLoggedIn(true);
-    router.push("/login");
+    // router.push("/login");
   };
 
   const login = async (formData: FormData) => {
@@ -80,17 +131,11 @@ export function AuthProvider({ children }: Props) {
     router.push("/");
   };
 
-  const value = {
-    isLoggedIn, 
-    signup, 
-    login, 
-    logout
-};
+
 
 
   return (
-    // <AuthContext.Provider value={{ isLoggedIn, signup, login, logout }}>
-    <AuthContext.Provider value={ value }>
+    <AuthContext.Provider value={{ isLoggedIn, signup, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
