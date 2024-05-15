@@ -48,3 +48,5 @@ npm i tailwind-merge
 npm i class-variance-authority
 npm i clsx
 npm i yup
+
+npm i react-hot-toast

@@ -43,7 +43,6 @@ const Signup = () => {
     // const userData = Object.fromEntries(formData.entries());
 
     localStorage.setItem("userData", JSON.stringify(data));
-
     router.push("/login");
   };
 

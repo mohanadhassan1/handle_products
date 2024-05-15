@@ -15,23 +15,24 @@ function classNames(...classes: string[]) {
 }
 
 const Navbar = () => {
-
   // const { isLoggedIn, logout } = useAuth();
 
   const router = useRouter();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const storageKey = "userData";
-  
+
   useEffect(() => {
     const userDataString = localStorage.getItem(storageKey);
     const userData = userDataString ? JSON.parse(userDataString) : null;
 
+    // if (userData !== null) {
+    //   setIsLoggedIn(true);
+    // }
     setIsLoggedIn(userData !== null);
     // setIsLoggedIn(userData)
-  }, [])
-
+  }, []);
 
   const onLogout = () => {
     localStorage.removeItem(storageKey);
@@ -40,8 +41,6 @@ const Navbar = () => {
       router.push("/");
     }, 1500);
   };
-
-
 
   return (
     <Disclosure as="nav" className="bg-gray-300 sticky top-0 z-50">
@@ -123,15 +122,15 @@ const Navbar = () => {
                         //   alt="Email"
                         // />
                         <Image
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt="ُEmail"
-                        className="h-8 w-8 rounded-full"
-                        width={64}
-                        height={64}
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt="ُEmail"
+                          className="h-8 w-8 rounded-full"
+                          width={64}
+                          height={64}
                         />
-                        ) : (
-                         <span className="h-8 w-8 rounded-full bg-green-600"></span>
-                       )} 
+                      ) : (
+                        <span className="h-8 w-8 rounded-full bg-green-600"></span>
+                      )}
                     </Menu.Button>
                   </div>
                   <Transition
@@ -175,7 +174,7 @@ const Navbar = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            href="#"
+                            href="/"
                             onClick={onLogout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
