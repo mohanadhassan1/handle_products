@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 import withAuth from '@/components/withAuth';
@@ -13,7 +13,6 @@ interface ProductData {
   quantity: string;
 }
 
-
 const Product = () => {
 
   const [formData, setFormData] = useState<ProductData>({
@@ -23,12 +22,22 @@ const Product = () => {
     quantity: "",
   });
 
-  const [products, setProducts] = useState<ProductData[]>(
-    JSON.parse(localStorage.getItem("products") || "[]")
-  );
+  // const [products, setProducts] = useState<ProductData[]>(
+  //   JSON.parse(localStorage.getItem("products") || "[]")
+  // );
+
+  const [products, setProducts] = useState<ProductData[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(
     null
   );
+
+  useEffect(() => {
+    const storedProducts = localStorage.getItem("products");
+    if (storedProducts) {
+      setProducts(JSON.parse(storedProducts));
+    }
+  }, []);
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -100,6 +109,7 @@ const Product = () => {
 
     toast.success("Products downloaded successfully!");
   };
+  
 
   return (
     <div className="container mx-auto px-4">
@@ -180,6 +190,7 @@ const Product = () => {
 
       <div className="max-w-screen-xl mx-auto">
         <h2 className="text-2xl font-bold mb-4">Product List</h2>
+        
         <div className="gap-4">
           <div className="flex flex-col justify-between md:flex-row md:space-x-4 flex-1 mb-4">
             <h3 className="text-lg font-semibold flex-1 mb-4 md:mb-0">Name</h3>
