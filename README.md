@@ -1,60 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Clone Repository:
+git clone https://github.com/mohanadhassan1/jatdev.git
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Deploy in vercel:
+https://mohanadhassan-jatdev.vercel.app/
 
 
+Instructions:
+1. Open vercel link "SpaceJAT Website" -> https://mohanadhassan-jatdev.vercel.app/
+2. It will open the login page. If it's your first time,  proceed to the signup page.
+3. Register using your name, email, password 
+    a. Ensure that your name is at least 5 characters long.
+    b. Use a valid email address format with "@" and ".com".
+    c. Choose a password that is at least 8 characters long.
+4. Add your first product, providing the name, price, and quantity "Don't write less than 0".
+5. Edit the product by clicking on the "Edit" button.
+6. Update the product details from the same place where it was added, then click the "Update" button.
+7. Add your Second Product.
+8. Delete the product by clicking on the "Delete" button.
+9. Download your products by clicking on the "Download Products" button.
+10. To logout, click on "Hello, [your name]" in the navbar.
+11. The logout button will appear. Click on it to logout.
+12. Thank you for visiting our website!
 
 
 Installations:
-
-npm install @headlessui/react @heroicons/react
-npm install next-themes
-
-npm install react-hook-form
-npm i tailwind-merge
-npm i class-variance-authority
-npm i clsx
-npm i yup
-
-npm i react-hot-toast
-
-npm i @reduxjs/toolkit
-npm i react-redux
+npm i @headlessui/react @heroicons/react    # using in Navbar
+npm i next-themes                           # using in Navbar
+npm i react-hook-form                       # using in Signup and Login Forms
+npm i class-variance-authority              # using in Button component
+npm i tailwind-merge                        # using for utils to merge tailwindcss
+npm i clsx                                  # using for utils for inputs
+npm i yup                                   # using for validation
+npm i react-hot-toast                       # using in messages and errors
+npm i @reduxjs/toolkit                      # using for authentication 
+npm i lucide-react                          # using for icons
+npm i @react-pdf/renderer                   # using for download PDF
 
 
-npm i lucide-react
+Project Structure:
+├── app/                    # Next.js app
+│   ├── product/            # Product CRUD page
+│       ├── page.tsx        
+│   ├── login/              # Login form page
+│       ├── page.tsx        
+│   ├── signup/             # Signup form page
+│       ├── page.tsx        
+│   ├── globals.css              
+│   ├── layout.tsx          # Route page
+│   ├── not-found.tsx       # 404 page
+│   ├── page.tsx            # Home page (protected route)
+├── components/             # Reusable components
+│   ├── ui/                 
+│       ├── Button.tsx        
+│       ├── Input.tsx        
+│       ├── InputErrorMessage.tsx        
+│   ├── navbar.tsx          
+│   ├── withAuth.tsx        # Authentication component
+├── context/                # Context for managing user authentication and product state
+│   ├── AuthContext.js      # 
+├── data/                   # SIGNUP_FORM - LOGIN_FORM
+│   ├── index.tsx           # 
+├── data/                   # Signup - Login - Error interfaces
+│   ├── index.tsx           # 
+├── lib/                    # 
+│   ├── utils.tsx           # 
+├── store/                  # Redux
+│   ├── authSlice.tsx       # 
+│   ├── index.tsx           # 
+├── validation/             # Signup - Login Schema
+│   ├── index.tsx           # 
+├── public/                 # Public assets (images, icons, etc.)
+├── README.md               # Project README file
+├── package.json            # Node.js dependencies and scripts
 
-npm install @react-pdf/renderer
+
+Download Products:
+It will download using PDF format.

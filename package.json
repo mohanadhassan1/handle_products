@@ -24,7 +24,6 @@
     "react-hook-form": "^7.51.4",
     "react-hot-toast": "^2.4.1",
     "react-pdf": "^8.0.2",
-    "react-redux": "^9.1.2",
     "tailwind-merge": "^2.3.0",
     "yup": "^1.4.0"
   },
