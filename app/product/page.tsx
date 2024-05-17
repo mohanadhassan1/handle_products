@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
+import withAuth from '@/components/withAuth';
+
+
 interface ProductData {
   id: number;
   product: string;
@@ -10,8 +13,11 @@ interface ProductData {
   quantity: string;
 }
 
-export default function Product() {
+
+const Product = () => {
+
   const [formData, setFormData] = useState<ProductData>({
+    id: 0,
     product: "",
     price: "",
     quantity: "",
@@ -37,6 +43,14 @@ export default function Product() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const price = parseFloat(formData.price);
+    const quantity = parseFloat(formData.quantity);
+    if (price < 0 || quantity < 0) {
+      toast.error("Price and quantity must be at least 0");
+      return;
+    }
+
     if (selectedProduct) {
       const updatedProducts = products.map((product) =>
         product.id === selectedProduct.id
@@ -48,14 +62,13 @@ export default function Product() {
       setSelectedProduct(null);
       toast.success("Product updated successfully!")
     } else {
-    //   const newProduct = { id: Date.now(), ...formData };
       const newProduct = { ...formData, id: Date.now() };
-      const updatedProducts = [...products, newProduct];
+      const updatedProducts = [ newProduct, ...products];
       setProducts(updatedProducts);
       localStorage.setItem("products", JSON.stringify(updatedProducts));
       toast.success("Product added successfully!")
     }
-    setFormData({ product: "", price: "", quantity: "" });
+    setFormData({ id: 0, product: "", price: "", quantity: "" });
   };
 
   const handleDelete = (id: number) => {
@@ -70,6 +83,22 @@ export default function Product() {
   const handleEdit = (product: ProductData) => {
     setSelectedProduct(product);
     setFormData({ ...product });
+  };
+
+  const handleDownload = () => {
+    const filename = "products.json";
+    const data = JSON.stringify(products, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast.success("Products downloaded successfully!");
   };
 
   return (
@@ -162,7 +191,12 @@ export default function Product() {
               Actions
             </h3>
           </div>
-
+          <button
+        onClick={handleDownload}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+      >
+        Download Products
+      </button>
           {products.map((product) => (
             <div
               key={product.id}
@@ -179,7 +213,6 @@ export default function Product() {
               </p>
               <div className="flex flex-1 gap-2 md:mb-0">
                 <button
-                //   className="text-indigo-600 hover:text-indigo-900 mr-2"
                   className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-4 border border-blue-500 hover:border-transparent rounded"
                   onClick={() => handleEdit(product)}
                 >
@@ -200,3 +233,6 @@ export default function Product() {
     </div>
   );
 }
+
+export default withAuth(Product);
+

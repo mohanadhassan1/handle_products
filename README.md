@@ -50,3 +50,10 @@ npm i clsx
 npm i yup
 
 npm i react-hot-toast
+
+npm i @reduxjs/toolkit
+npm i react-redux
+
+npm install @clerk/nextjs
+
+npm i lucide-react

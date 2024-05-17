@@ -3,42 +3,42 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronDown } from 'lucide-react';
 import Link from "next/link";
 import Image from "next/image";
-// import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 
-const navigation = [{ name: "SPACEJAT", href: "/", current: true }];
+
+const navigation = [{ name: "SPACEJAT", href: "/", current: true },{ name: "product", href: "/product", current: true }];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
-  // const { isLoggedIn, logout } = useAuth();
 
   const router = useRouter();
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [name, setName] = useState<string | null>(null);
 
   const storageKey = "userData";
 
   useEffect(() => {
     const userDataString = localStorage.getItem(storageKey);
     const userData = userDataString ? JSON.parse(userDataString) : null;
-
-    // if (userData !== null) {
-    //   setIsLoggedIn(true);
-    // }
     setIsLoggedIn(userData !== null);
-    // setIsLoggedIn(userData)
-  }, []);
+    
+    if (userData !== null) {
+      setName(userData.name);
+    }
+  }, [isLoggedIn]);
 
   const onLogout = () => {
     localStorage.removeItem(storageKey);
     setIsLoggedIn(false);
+    setName(null);
     setTimeout(() => {
-      router.push("/");
+      router.push("/login");
     }, 1500);
   };
 
@@ -111,26 +111,26 @@ const Navbar = () => {
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button className="relative flex rounded-full bg-transparent text-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
+                      <span>{name ? `Hello, ${name}` : "Register"}</span>
+                      <ChevronDown />
+                      
 
-                      {isLoggedIn ? (
-                        // <img
-                        //   className="h-8 w-8 rounded-full"
+
+                      {/* {isLoggedIn ? (
+                        // <Image
                         //   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        //   alt="Email"
+                        //   alt="ُEmail"
+                        //   className="h-8 w-8 rounded-full"
+                        //   width={64}
+                        //   height={64}
                         // />
-                        <Image
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt="ُEmail"
-                          className="h-8 w-8 rounded-full"
-                          width={64}
-                          height={64}
-                        />
+                        <h3>Hello, </h3>
                       ) : (
-                        <span className="h-8 w-8 rounded-full bg-green-600"></span>
-                      )}
+                        <h3 className=" text-black rounded-full bg-blue-300">Register</h3>
+                      )} */}
                     </Menu.Button>
                   </div>
                   <Transition
