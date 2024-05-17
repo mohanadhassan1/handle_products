@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 
-const navigation = [{ name: "SPACEJAT", href: "/", current: true },{ name: "product", href: "/product", current: true }];
+const navigation = [{ name: "SPACEJAT", href: "/", current: true }];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");

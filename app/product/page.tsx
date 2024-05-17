@@ -2,8 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Document, Page, Text, PDFDownloadLink } from "@react-pdf/renderer";
+import { Document, Page, Text } from "@react-pdf/renderer";
 import withAuth from "@/components/withAuth";
+import dynamic from "next/dynamic";
+
+const PDFDownloadLink = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod. PDFDownloadLink),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 interface ProductData {
   id: number;
@@ -168,7 +177,8 @@ const Product = () => {
         <div className="flex justify-between">
           <h2 className="text-2xl font-bold mb-4">Product List</h2>
           <PDFDownloadLink
-            document={
+              className="px-4 md:w-auto bg-transparent text-indigo-700 hover:text-white font-semibold shadow-md py-2 border border-blue-500 hover:border-transparent rounded-md transition duration-300 ease-in-out hover:bg-indigo-500"
+              document={
               <Document>
                 <Page>
                   <Text>Product List</Text>
