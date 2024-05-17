@@ -54,10 +54,7 @@ npm i react-hot-toast
 npm i @reduxjs/toolkit
 npm i react-redux
 
-npm install @clerk/nextjs
 
 npm i lucide-react
-npm i react-pdf
-npm install @react-pdf/renderer @react-pdf/react-pdf
 
-npm install jspdf html2canvas
+npm install @react-pdf/renderer

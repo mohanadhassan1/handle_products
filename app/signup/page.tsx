@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../context/AuthContext";
 import "../globals.css";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -37,7 +36,6 @@ const Signup = () => {
     localStorage.setItem("userData", JSON.stringify(data));
     router.push("/login");
   };
-
 
   const renderRegisterForm = REGISTER_FORM.map(
     ({ name, placeholder, type, validation }, idx) => {

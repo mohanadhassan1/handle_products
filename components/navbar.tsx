@@ -5,7 +5,6 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDown } from 'lucide-react';
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 
@@ -116,21 +115,6 @@ const Navbar = () => {
                       <span className="sr-only">Open user menu</span>
                       <span>{name ? `Hello, ${name}` : "Register"}</span>
                       <ChevronDown />
-                      
-
-
-                      {/* {isLoggedIn ? (
-                        // <Image
-                        //   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        //   alt="ُEmail"
-                        //   className="h-8 w-8 rounded-full"
-                        //   width={64}
-                        //   height={64}
-                        // />
-                        <h3>Hello, </h3>
-                      ) : (
-                        <h3 className=" text-black rounded-full bg-blue-300">Register</h3>
-                      )} */}
                     </Menu.Button>
                   </div>
                   <Transition

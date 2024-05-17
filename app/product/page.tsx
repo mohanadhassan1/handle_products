@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
-
-import withAuth from '@/components/withAuth';
-
+import { Document, Page, Text, PDFDownloadLink } from "@react-pdf/renderer";
+import withAuth from "@/components/withAuth";
 
 interface ProductData {
   id: number;
@@ -14,17 +13,12 @@ interface ProductData {
 }
 
 const Product = () => {
-
   const [formData, setFormData] = useState<ProductData>({
     id: 0,
     product: "",
     price: "",
     quantity: "",
   });
-
-  // const [products, setProducts] = useState<ProductData[]>(
-  //   JSON.parse(localStorage.getItem("products") || "[]")
-  // );
 
   const [products, setProducts] = useState<ProductData[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(
@@ -37,7 +31,6 @@ const Product = () => {
       setProducts(JSON.parse(storedProducts));
     }
   }, []);
-
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -69,13 +62,13 @@ const Product = () => {
       setProducts(updatedProducts);
       localStorage.setItem("products", JSON.stringify(updatedProducts));
       setSelectedProduct(null);
-      toast.success("Product updated successfully!")
+      toast.success("Product updated successfully!");
     } else {
       const newProduct = { ...formData, id: Date.now() };
-      const updatedProducts = [ newProduct, ...products];
+      const updatedProducts = [newProduct, ...products];
       setProducts(updatedProducts);
       localStorage.setItem("products", JSON.stringify(updatedProducts));
-      toast.success("Product added successfully!")
+      toast.success("Product added successfully!");
     }
     setFormData({ id: 0, product: "", price: "", quantity: "" });
   };
@@ -84,8 +77,8 @@ const Product = () => {
     const updatedProducts = products.filter((product) => product.id !== id);
     setProducts(updatedProducts);
     localStorage.setItem("products", JSON.stringify(updatedProducts));
-    toast('Product deleted', {
-      icon: '👏',
+    toast("Product deleted", {
+      icon: "👏",
     });
   };
 
@@ -93,23 +86,6 @@ const Product = () => {
     setSelectedProduct(product);
     setFormData({ ...product });
   };
-
-  const handleDownload = () => {
-    const filename = "products.json";
-    const data = JSON.stringify(products, null, 2);
-    const blob = new Blob([data], { type: "application/json" });
-
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    toast.success("Products downloaded successfully!");
-  };
-  
 
   return (
     <div className="container mx-auto px-4">
@@ -189,8 +165,29 @@ const Product = () => {
       <hr className="max-w-screen-xl mx-auto flex-1 border-b border-gray-400 my-10" />
 
       <div className="max-w-screen-xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Product List</h2>
-        
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-bold mb-4">Product List</h2>
+          <PDFDownloadLink
+            document={
+              <Document>
+                <Page>
+                  <Text>Product List</Text>
+                  {products.map((product) => (
+                    <Text key={product.id}>
+                      {product.product} - ${product.price} - {product.quantity}
+                    </Text>
+                  ))}
+                </Page>
+              </Document>
+            }
+            fileName="products.pdf"
+          >
+            {({ blob, url, loading, error }) =>
+              loading ? "Loading document..." : "Download Products"
+            }
+          </PDFDownloadLink>
+        </div>
+
         <div className="gap-4">
           <div className="flex flex-col justify-between md:flex-row md:space-x-4 flex-1 mb-4">
             <h3 className="text-lg font-semibold flex-1 mb-4 md:mb-0">Name</h3>
@@ -202,12 +199,7 @@ const Product = () => {
               Actions
             </h3>
           </div>
-          <button
-        onClick={handleDownload}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-      >
-        Download Products
-      </button>
+
           {products.map((product) => (
             <div
               key={product.id}
@@ -230,7 +222,7 @@ const Product = () => {
                   Edit
                 </button>
                 <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 border border-red-700 rounded"
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 border border-red-700 rounded"
                   onClick={() => handleDelete(product.id)}
                 >
                   Delete
@@ -243,7 +235,6 @@ const Product = () => {
       <Toaster />
     </div>
   );
-}
+};
 
 export default withAuth(Product);
-
