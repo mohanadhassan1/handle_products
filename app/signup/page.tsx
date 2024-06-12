@@ -12,6 +12,10 @@ import { registerSchema } from "@/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@/components/ui/Button";
 
+import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/hooks';
+import { setUser } from '@/store/userSlice';
+
 interface IFormInput {
   name: string;
   email: string;
@@ -20,6 +24,8 @@ interface IFormInput {
 
 const Signup = () => {
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -33,7 +39,7 @@ const Signup = () => {
     console.log("DATA", data);
     setIsLoading(true);
 
-    localStorage.setItem("userData", JSON.stringify(data));
+    dispatch(setUser({ name: data.name, email: data.email, password: data.password }));
     router.push("/login");
   };
 

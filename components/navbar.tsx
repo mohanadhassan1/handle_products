@@ -1,41 +1,40 @@
 "use client";
 
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { loadUserFromStorage, logout } from "@/store/userSlice";
+import { RootState } from "../store/store";
+import { toggleMode } from "../store/darkModeSlice";
 
-const navigation = [{ name: "SPACEJAT", href: "/", current: true }];
+// import { ThemeContext } from '../context/ThemeContext';
+
+const navigation = [{ name: "Home", href: "/", current: true }];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
-
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [name, setName] = useState<string | null>(null);
 
-  const storageKey = "userData";
+  const dispatch = useAppDispatch();
+  const { name, isLoggedIn } = useAppSelector((state) => state.user);
+  const darkMode = useAppSelector((state: RootState) => state.darkMode.mode);
+
+  // const { theme, toggle } = useContext(ThemeContext);
 
   useEffect(() => {
-    const userDataString = localStorage.getItem(storageKey);
-    const userData = userDataString ? JSON.parse(userDataString) : null;
-    setIsLoggedIn(userData !== null);
-    
-    if (userData !== null) {
-      setName(userData.name);
-    }
-  }, [isLoggedIn]);
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
 
   const onLogout = () => {
-    localStorage.removeItem(storageKey);
-    setIsLoggedIn(false);
-    setName(null);
+    dispatch(logout());
     setTimeout(() => {
       router.push("/login");
     }, 1500);
@@ -106,6 +105,18 @@ const Navbar = () => {
                   </div>
                 </div>
               </div>
+
+              {/* <div>
+                <button onClick={toggle}>
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </button>
+              </div> */}
+              <div>
+                <button onClick={() => dispatch(toggleMode())}>
+                  {darkMode === "light" ? "Dark Mode" : "Light Mode"}
+                </button>
+              </div>
+
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
