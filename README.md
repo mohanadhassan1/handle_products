@@ -1,12 +1,12 @@
 Clone Repository:
-git clone https://github.com/mohanadhassan1/jatdev.git
+git clone https://github.com/mohanadhassan1/handle_products.git
 
 Deploy in vercel:
-https://mohanadhassan-jatdev.vercel.app/
+https://handle-products.vercel.app/
 
 
 Instructions:
-1. Open vercel link "SpaceJAT Website" -> https://mohanadhassan-jatdev.vercel.app/
+1. Open vercel link "SpaceJAT Website" -> https://handle-products.vercel.app/
 2. It will open the login page. If it's your first time,  proceed to the signup page.
 3. Register using your name, email, password 
     a. Ensure that your name is at least 5 characters long.
